@@ -4,12 +4,12 @@ make(GNU make), g++
 ----------COMPILING----------
 1. Open a shell
 2. Change to the directory, which contains this file
-3. type 'make', to compile the application
+3. Type 'make', to compile the application
 
 ----------LAUNCH-------------
 1. Open a shell
 2. Change to the directory, which contains this file
-3. type './matchgame' to start the application
+3. Type './matchgame' to start the application
 
 ----------INFO---------------
 For more information visit my homepage http://ghost.webege.com
