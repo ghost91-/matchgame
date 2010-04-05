@@ -40,6 +40,7 @@ void CConsole::GetInteger(int *pRet)
 		std::cin.clear();
 		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	}
+	return;
 }
 
 void CConsole::GetUnsigned(unsigned *pRet)
@@ -50,9 +51,11 @@ void CConsole::GetUnsigned(unsigned *pRet)
 		std::cin.clear();
 		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	}
+	return;
 }
 
 void CConsole::GetString(char* pStr)
 {
 	std::cin>>pStr;
+	return;
 }

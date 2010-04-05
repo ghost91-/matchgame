@@ -5,7 +5,6 @@
 #include <arpa/inet.h>
 #include <string.h>
 #define PORT "7005"
-#define BACKLOG 10
 
 class CServer
 {

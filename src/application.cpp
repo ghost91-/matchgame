@@ -26,7 +26,7 @@ void CApplication::Run()
 }
 
 void CApplication::StartGame(GameType GameType)
-{	
+{
 	IGame *pGame = CreateGame(GameType);
 	if(pGame->Init() == 0)
 		pGame->Play();
