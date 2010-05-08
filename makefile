@@ -1,7 +1,8 @@
 VERSION    = 0.0.5
-CC         = /usr/bin/g++
+CC         = g++
 CFLAGS     = -Wall
 DBGFLAGS   = -g
+LDFLAGS    = -l LIBWS2_32.a
 OBJECTS    = main.o application.o menu.o console.o game.o visualisation.o net.o server.o client.o player.o playfield.o
 OBJPATH    = objects/
 SRCPATH    = src/
