@@ -4,11 +4,6 @@ cc         = gcc
 CFLAGS     = -Wall
 DBGFLAGS   = -g
 SYSTEM     = $(shell $(cc) -dumpmachine)
-ifeq ($(findstring mingw32, $(SYSTEM)), mingw32)
-LDFLAGS    = /mingw/lib/libws2_32.a
-else
-LDFLAGS    =
-endif
 OBJECTS    = main.o application.o menu.o console.o game.o visualisation.o net.o server.o client.o player.o playfield.o
 OBJPATH    = objects/
 SRCPATH    = src/
@@ -16,6 +11,15 @@ OBJ        = $(OBJECTS:%.o=$(OBJPATH)%.o)
 DBGOBJ     = $(OBJ:%.o=%.o_d)
 BIN        = matchgame
 DBGBIN     = $(BIN:%=%_d)
+ifeq ($(findstring mingw32, $(SYSTEM)), mingw32)
+LDFLAGS    = /mingw/lib/libws2_32.a
+RM         = del /FQ
+BIN        = $(BIN:%=%.exe)
+BIN        = $(DBGBIN:%=%.exe)
+else
+LDFLAGS    =
+RM         = rm -rf
+endif
 
 all: $(BIN)
 
@@ -94,9 +98,5 @@ $(OBJPATH)playfield.o_d: $(SRCPATH)playfield.cpp $(SRCPATH)playfield.h
 	$(CC) $(CFLAGS) $(DBGFLAGS) -c -o $@ $<
 
 clean:
-	ifeq ($(findstring mingw32, $(SYSTEM)), mingw32)
-	del /Y $(OBJ) $(DBGOBJ) $(BIN).exe $(DBGBIN).exe
-	else
-	rm -rf $(OBJ) $(DBGOBJ) $(BIN) $(DBGBIN)
-	endif
+	$(RM) $(OBJ) $(DBGOBJ) $(BIN) $(DBGBIN)
 
