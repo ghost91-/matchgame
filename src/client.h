@@ -2,7 +2,7 @@
 #define CLIENT_DEFINED
 
 #ifdef _WIN32
-	#include <winsock.h>
+	#include <winsock2.h>
 #else
 	#include <netdb.h>
 	#include <arpa/inet.h>

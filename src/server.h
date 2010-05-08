@@ -2,8 +2,9 @@
 #define SERVER_DEFINED
 
 #ifdef _WIN32
-	#include <winsock.h>
+	#include <winsock2.h>
 	#include <ws2tcpip.h>
+	#include <windows.h>
 	#define socklen_t int
 	#define close(s) closesocket(s)
 #else
