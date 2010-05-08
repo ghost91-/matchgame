@@ -32,7 +32,7 @@ int CServer::InitServInfo()
 
 int CServer::BindToOwnSock()
 {
-	int yes = 1;
+	char yes[2] = "1";
 	struct addrinfo *pP;// = new struct addrinfo;
 	for(pP = m_pServInfo; pP != NULL; pP = pP->ai_next)
 	{
@@ -40,7 +40,7 @@ int CServer::BindToOwnSock()
 		{
 			continue;
 		}
-		if (setsockopt(m_OwnSockfd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == -1)
+		if (setsockopt(m_OwnSockfd, SOL_SOCKET, SO_REUSEADDR, yes, sizeof(int)) == -1)
 		{
 			return -1;
 		}

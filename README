@@ -1,7 +1,7 @@
 matchgame version 0.0.5
 
 ----------REQUIREMENTS-------
-make(GNU make), g++
+make(GNU make), gcc, g++
 
 ----------COMPILING----------
 1. Open a shell
