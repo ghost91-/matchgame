@@ -9,16 +9,18 @@ OBJPATH    = objects/
 SRCPATH    = src/
 OBJ        = $(OBJECTS:%.o=$(OBJPATH)%.o)
 DBGOBJ     = $(OBJ:%.o=%.o_d)
-BIN        = matchgame
-DBGBIN     = $(BIN:%=%_d)
+BINNAME        = matchgame
+DBGBINNAME = $(BINNAME:%=%_d)
 ifeq ($(findstring mingw32, $(SYSTEM)), mingw32)
 LDFLAGS    = /mingw/lib/libws2_32.a
 RM         = del /FQ
-BIN        = $(BIN:%=%.exe)
-BIN        = $(DBGBIN:%=%.exe)
+BIN        = $(BINNAME:%=%.exe)
+BIN        = $(DBGBINNAME:%=%.exe)
 else
 LDFLAGS    =
 RM         = rm -rf
+BIN        = $(BINNAME)
+BIN        = $(DBGBINNAME)
 endif
 
 all: $(BIN)
