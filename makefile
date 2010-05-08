@@ -20,7 +20,7 @@ else
 LDFLAGS    =
 RM         = rm -rf
 BIN        = $(BINNAME)
-BIN        = $(DBGBINNAME)
+DBGBIN        = $(DBGBINNAME)
 endif
 
 all: $(BIN)
