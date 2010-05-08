@@ -9,7 +9,7 @@ OBJPATH    = objects/
 SRCPATH    = src/
 OBJ        = $(OBJECTS:%.o=$(OBJPATH)%.o)
 DBGOBJ     = $(OBJ:%.o=%.o_d)
-BINNAME        = matchgame
+BINNAME    = matchgame
 DBGBINNAME = $(BINNAME:%=%_d)
 ifeq ($(findstring mingw32, $(SYSTEM)), mingw32)
 LDFLAGS    = /mingw/lib/libws2_32.a
