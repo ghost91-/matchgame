@@ -2,9 +2,9 @@ VERSION    = 0.0.5
 CC         = g++
 CFLAGS     = -Wall
 DBGFLAGS   = -g
-SYSTEM     = gcc -dumpmachine
-ifeq ($(SYSTEM),mingw32)
-LDFLAGS    = -l libws2_32.a
+SYSTEM     = $(gcc -dumpmachine)
+ifeq ($(findstring mingw32, $(SYSTEM), mingw32))
+LDFLAGS    = /mingw/lib/libws2_32.a
 else
 LDFLAGS    =
 endif
@@ -21,10 +21,10 @@ all: $(BIN)
 debug: $(DBGBIN)
 
 $(BIN):  $(OBJ)
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $(BIN) $(OBJ)
+	$(CC) $(CFLAGS) -o $(BIN) $(OBJ) $(LDFLAGS)
 
 $(DBGBIN): $(DBGOBJ)
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $(DBGBIN) $(DBGOBJ)
+	$(CC) $(CFLAGS) -o $(DBGBIN) $(DBGOBJ) $(LDFLAGS)
 
 $(OBJPATH)main.o: $(SRCPATH)main.cpp $(SRCPATH)application.h $(SRCPATH)game.h 
 	$(CC) $(CFLAGS) -c -o $@ $<
