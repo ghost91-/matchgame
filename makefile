@@ -3,7 +3,7 @@ CC         = g++
 cc         = gcc
 CFLAGS     = -Wall
 DBGFLAGS   = -g
-SYSTEM     = $(shell$(cc) -dumpmachine)
+SYSTEM     = $(shell $(cc) -dumpmachine)
 ifeq ($(findstring mingw32, $(SYSTEM)), mingw32)
 LDFLAGS    = /mingw/lib/libws2_32.a
 else
