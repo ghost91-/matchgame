@@ -91,7 +91,7 @@ int CClient::StartConnecting(char *pIpString)
 bool CClient::RecieveNumber(int *pValue)
 {
 	int Ret;
-	uint32_t *pBuf = new uint32_t;
+	char *pBuf = new char;
 	Ret = recv(m_Sockfd, pBuf, sizeof *pBuf, 0);
 	*pValue = ntohl(*pBuf);
 	delete pBuf;
@@ -111,7 +111,7 @@ bool CClient::RecieveNumber(int *pValue)
 bool CClient::SendNumber(int *pValue)
 {
 	int Ret;
-	uint32_t *pBuf = new uint32_t;
+	char *pBuf = new char;
 	*pBuf = htonl(*pValue);
 	#ifdef _WIN32
 	Ret = send(m_Sockfd, pBuf, sizeof *pBuf, 0);
