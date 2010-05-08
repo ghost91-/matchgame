@@ -78,7 +78,11 @@ int CServer::AcceptConnection()
 	{
 		return -1;
 	}
+	#ifdef _WIN32
+	getnameinfo((struct sockaddr *)&m_TheirAddr, sizeof (struct sockaddr), aIp, sizeof aIp, 0, NI_MAXSERV, NI_NUMERICSERV);
+	#else
 	inet_ntop(m_TheirAddr.ss_family, GetInAddr((struct sockaddr *)&m_TheirAddr), aIp, sizeof aIp);
+	#endif
 	CConsole::Print("Server: got connection from %s\n\n", aIp);
 	return 0;
 }
@@ -133,7 +137,11 @@ bool CServer::SendNumber(int *pValue)
 	int Ret;
 	uint32_t *pBuf = new uint32_t;
 	*pBuf = htonl(*pValue);
+	#ifdef _WIN32
+	Ret = send(m_Sockfd, pBuf, sizeof *pBuf, 0);
+	#else
 	Ret = send(m_Sockfd, pBuf, sizeof *pBuf, MSG_NOSIGNAL);
+	#endif
 	delete pBuf;
 	if (Ret < 0)
 	{

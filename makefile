@@ -2,7 +2,12 @@ VERSION    = 0.0.5
 CC         = g++
 CFLAGS     = -Wall
 DBGFLAGS   = -g
-LDFLAGS    = -l LIBWS2_32.a
+SYSTEM     = gcc -dumpmachine
+ifeq ($(SYSTEM),mingw32)
+LDFLAGS    = -l libws2_32.a
+else
+LDFLAGS    =
+endif
 OBJECTS    = main.o application.o menu.o console.o game.o visualisation.o net.o server.o client.o player.o playfield.o
 OBJPATH    = objects/
 SRCPATH    = src/
@@ -16,10 +21,10 @@ all: $(BIN)
 debug: $(DBGBIN)
 
 $(BIN):  $(OBJ)
-	$(CC) $(CFLAGS) -o $(BIN) $(OBJ)
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $(BIN) $(OBJ)
 
 $(DBGBIN): $(DBGOBJ)
-	$(CC) $(CFLAGS) -o $(DBGBIN) $(DBGOBJ)
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $(DBGBIN) $(DBGOBJ)
 
 $(OBJPATH)main.o: $(SRCPATH)main.cpp $(SRCPATH)application.h $(SRCPATH)game.h 
 	$(CC) $(CFLAGS) -c -o $@ $<

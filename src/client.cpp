@@ -49,7 +49,11 @@ int CClient::ConnectToServer()
 		freeaddrinfo(m_pServInfo);
 		return -1;
 	}
+	#ifdef _WIN32
+	getnameinfo((struct sockaddr *)pP->ai_addr, sizeof (struct sockaddr), aIp, sizeof aIp, 0, NI_MAXSERV, NI_NUMERICSERV);
+	#else
 	inet_ntop(pP->ai_family, GetInAddr((struct sockaddr *)pP->ai_addr), aIp, sizeof aIp);
+	#endif
 	CConsole::Print("Client: connecting to %s\n\n", aIp);
 	freeaddrinfo(m_pServInfo);
 	return 0;
@@ -109,7 +113,11 @@ bool CClient::SendNumber(int *pValue)
 	int Ret;
 	uint32_t *pBuf = new uint32_t;
 	*pBuf = htonl(*pValue);
+	#ifdef _WIN32
+	Ret = send(m_Sockfd, pBuf, sizeof *pBuf, 0);
+	#else
 	Ret = send(m_Sockfd, pBuf, sizeof *pBuf, MSG_NOSIGNAL);
+	#endif
 	delete pBuf;
 	if (Ret < 0)
 	{
