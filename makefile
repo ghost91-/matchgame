@@ -95,7 +95,7 @@ $(OBJPATH)playfield.o_d: $(SRCPATH)playfield.cpp $(SRCPATH)playfield.h
 
 clean:
 	ifeq ($(findstring mingw32, $(SYSTEM)), mingw32)
-	deltree /Y $(OBJ) $(DBGOBJ) $(BIN).exe $(DBGBIN).exe
+	del /Y $(OBJ) $(DBGOBJ) $(BIN).exe $(DBGBIN).exe
 	else
 	rm -rf $(OBJ) $(DBGOBJ) $(BIN) $(DBGBIN)
 	endif
