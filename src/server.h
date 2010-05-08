@@ -1,10 +1,16 @@
 #ifndef SERVER_DEFINED
 #define SERVER_DEFINED
 
-#include <netdb.h>
-#include <arpa/inet.h>
+#ifdef _WIN32
+	#include <winsock.h>
+#else
+	#include <netdb.h>
+	#include <arpa/inet.h>
+	#define closesocket(s) close(s)
+#endif
 #include <string.h>
 #define PORT "7005"
+#define BACKLOG 10
 
 class CServer
 {

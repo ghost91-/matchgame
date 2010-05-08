@@ -86,6 +86,16 @@ int CServer::AcceptConnection()
 
 int CServer::StartupServer()
 {
+	#ifdef _WIN32  
+	/* Initialisiere TCP für Windows ("winsock") */
+	short wVersionRequested;
+	WSADATA wsaData;
+	wVersionRequested = MAKEWORD (1, 1);
+	if (WSAStartup (wVersionRequested, &wsaData) != 0)
+	{
+		return -1;
+    	}
+	#endif
 	int a, b, c, d;
 	a = InitServInfo();
 	b = BindToOwnSock();
