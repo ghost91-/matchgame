@@ -7,6 +7,7 @@
 	#include <netdb.h>
 	#include <arpa/inet.h>
 	#define closesocket(s) close(s)
+	#define SOCKADDR_STORAGE struct sockaddr_storage
 #endif
 #include <string.h>
 #define PORT "7005"
@@ -17,7 +18,7 @@ class CServer
 	private:
 	int m_OwnSockfd, m_Sockfd;
 	struct addrinfo *m_pServInfo;
-	struct sockaddr_storage m_TheirAddr;
+	SOCKADDR_STORAGE m_TheirAddr;
 	socklen_t m_SinSize;
 	void *GetInAddr(struct sockaddr *pSa);
 	int InitServInfo();
