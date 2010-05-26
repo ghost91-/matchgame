@@ -117,7 +117,7 @@ bool CServer::RecieveNumber(int *pValue)
 {
 	int Ret;
 	uint32_t *pBuf = new uint32_t;
-	Ret = recv(m_Sockfd, pBuf, sizeof *pBuf, 0);
+	Ret = recv(m_Sockfd, &amp;pBuf, sizeof *pBuf, 0);
 	*pValue = ntohl(*pBuf);
 	delete pBuf;
 	if (Ret < 0)
@@ -138,7 +138,11 @@ bool CServer::SendNumber(int *pValue)
 	int Ret;
 	uint32_t *pBuf = new uint32_t;
 	*pBuf = htonl(*pValue);
-	Ret = send(m_Sockfd, pBuf, sizeof *pBuf, MSG_NOSIGNAL);
+	#ifdef _WIN32
+	Ret = send(m_Sockfd, &amp;pBuf, sizeof *pBuf, 0);
+	#else
+	Ret = send(m_Sockfd, &amp;pBuf, sizeof *pBuf, MSG_NOSIGNAL);
+	#endif
 	delete pBuf;
 	if (Ret < 0)
 	{
