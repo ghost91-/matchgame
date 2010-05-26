@@ -15,12 +15,12 @@ ifeq ($(findstring mingw32, $(SYSTEM)), mingw32)
 LDFLAGS    = /mingw/lib/libws2_32.a
 RM         = del /FQ
 BIN        = $(BINNAME:%=%.exe)
-BIN        = $(DBGBINNAME:%=%.exe)
+DBGBIN     = $(DBGBINNAME:%=%.exe)
 else
 LDFLAGS    =
 RM         = rm -rf
 BIN        = $(BINNAME)
-DBGBIN        = $(DBGBINNAME)
+DBGBIN     = $(DBGBINNAME)
 endif
 
 all: $(BIN)
