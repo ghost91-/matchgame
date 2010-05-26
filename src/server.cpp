@@ -116,10 +116,10 @@ int CServer::StartupServer()
 bool CServer::RecieveNumber(int *pValue)
 {
 	int Ret;
-//	char *pBuf = new char;
-	Ret = recv(m_Sockfd, pValue, sizeof *pValue, 0);
-//	*pValue = ntohl(atoi(pBuf));
-//	delete pBuf;
+	uint32_t *pBuf = new uint32_t;
+	Ret = recv(m_Sockfd, pBuf, sizeof *pBuf, 0);
+	*pValue = ntohl(*pBuf);
+	delete pBuf;
 	if (Ret < 0)
 	{
 		CConsole::PrintError(RecvError);
@@ -136,14 +136,10 @@ bool CServer::RecieveNumber(int *pValue)
 bool CServer::SendNumber(int *pValue)
 {
 	int Ret;
-/*	char *pBuf = new char;
-	pBuf = itoa(htonl(*pValue), pBuf, 10);*/
-	#ifdef _WIN32
-	Ret = send(m_Sockfd, pValue, sizeof *pValue, 0);
-	#else
-	Ret = send(m_Sockfd, pValue, sizeof *pValue, MSG_NOSIGNAL);
-	#endif
-//	delete pBuf;
+	uint32_t *pBuf = new uint32_t;
+	*pBuf = htonl(*pValue);
+	Ret = send(m_Sockfd, pBuf, sizeof *pBuf, MSG_NOSIGNAL);
+	delete pBuf;
 	if (Ret < 0)
 	{
 		CConsole::PrintError(SendError);
