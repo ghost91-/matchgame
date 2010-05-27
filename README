@@ -1,17 +1,18 @@
-matchgame version 0.0.5
+matchgame version 0.1.1
 
 ----------REQUIREMENTS-------
 make(GNU make), gcc, g++
+(On Windows you will need MinGW)
 
 ----------COMPILING----------
 1. Open a shell
 2. Change to the directory, which contains this file
-3. Type 'make', to compile the application
+3. Type 'make' ('mingw32-make' if you are using Windows), to compile the application
 
 ----------LAUNCH-------------
 1. Open a shell
 2. Change to the directory, which contains this file
-3. Type './matchgame' to start the application
+3. Type './matchgame' ('matchgame.exe' if you using Windows) to start the application
 
 ----------INFO---------------
 For more information visit my homepage http://ghost.webege.com or my github repository http://github.com/ghost91-

@@ -1,4 +1,4 @@
-VERSION    = 0.0.5
+VERSION    = 0.1.1
 CC         = g++
 cc         = gcc
 CFLAGS     = -Wall
