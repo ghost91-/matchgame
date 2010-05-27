@@ -12,15 +12,20 @@ DBGOBJ     = $(OBJ:%.o=%.o_d)
 BINNAME    = matchgame
 DBGBINNAME = $(BINNAME:%=%_d)
 ifeq ($(findstring mingw32, $(SYSTEM)), mingw32)
-LDFLAGS    = /mingw/lib/libws2_32.a
-RM         = del /FQ
+LDFLAGS    = -lws2_32
+RM         = del /Q /F
 BIN        = $(BINNAME:%=%.exe)
 DBGBIN     = $(DBGBINNAME:%=%.exe)
+DELPATH    = objects\\
+DELOBJ     = $(OBJECTS:%.o=$(DELPATH)%.o)
+DELDBGOBJ = $(DELOBJ:%.o=%.o_d)
 else
 LDFLAGS    =
 RM         = rm -rf
 BIN        = $(BINNAME)
 DBGBIN     = $(DBGBINNAME)
+DELOBJ     = $(OBJ)
+DELDBGOBJ  = $(DBGOBJ)
 endif
 
 all: $(BIN)
@@ -100,5 +105,4 @@ $(OBJPATH)playfield.o_d: $(SRCPATH)playfield.cpp $(SRCPATH)playfield.h
 	$(CC) $(CFLAGS) $(DBGFLAGS) -c -o $@ $<
 
 clean:
-	$(RM) $(OBJ) $(DBGOBJ) $(BIN) $(DBGBIN)
-
+	$(RM) $(BIN) $(DBGBIN) $(DELOBJ) $(DELDBGOBJ)
