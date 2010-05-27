@@ -78,7 +78,6 @@ int CLocalGame::DoInit()
 
 CServerGame::CServerGame()
 {
-	delete m_pVisualisation;
 	m_Initiated = false;
 	m_pNet = CreateNet();;
 	m_pVisualisation = CreateVisualisation();
@@ -86,6 +85,7 @@ CServerGame::CServerGame()
 
 CServerGame::~CServerGame()
 {
+	delete m_pVisualisation;
 	if(m_Initiated)
 	{
 		delete m_paPlayer[0];
@@ -121,7 +121,6 @@ int CServerGame::DoInit()
 
 CClientGame::CClientGame()
 {
-	delete m_pVisualisation;
 	m_Initiated = false;
 	m_pNet = CreateNet();
 	m_pVisualisation = CreateVisualisation();
@@ -129,6 +128,7 @@ CClientGame::CClientGame()
 
 CClientGame::~CClientGame()
 {
+	delete m_pVisualisation;
 	if(m_Initiated)
 	{
 		delete m_paPlayer[0];

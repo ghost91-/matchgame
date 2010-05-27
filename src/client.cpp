@@ -1,5 +1,6 @@
 #include "client.h"
 #include "console.h"
+#include <cstdlib>
 
 void* CClient::GetInAddr(struct sockaddr *pSa)
 {
@@ -91,10 +92,9 @@ int CClient::StartConnecting(char *pIpString)
 bool CClient::RecieveNumber(int *pValue)
 {
 	int Ret;
-	char *pBuf = new char;
-	Ret = recv(m_Sockfd, pBuf, sizeof *pBuf, 0);
-	*pValue = ntohl(*pBuf);
-	delete pBuf;
+	char aBuf[128];
+	Ret = recv(m_Sockfd, aBuf, sizeof aBuf, 0);
+	*pValue = atoi(aBuf);
 	if (Ret < 0)
 	{
 		CConsole::PrintError(RecvError);
@@ -111,14 +111,13 @@ bool CClient::RecieveNumber(int *pValue)
 bool CClient::SendNumber(int *pValue)
 {
 	int Ret;
-	char *pBuf = new char;
-	*pBuf = htonl(*pValue);
+	char aBuf[128];
+	sprintf(aBuf, "%d", *pValue);
 	#ifdef _WIN32
-	Ret = send(m_Sockfd, pBuf, sizeof *pBuf, 0);
+	Ret = send(m_Sockfd, aBuf, sizeof aBuf, 0);
 	#else
-	Ret = send(m_Sockfd, pBuf, sizeof *pBuf, MSG_NOSIGNAL);
+	Ret = send(m_Sockfd, aBuf, sizeof aBuf, MSG_NOSIGNAL);
 	#endif
-	delete pBuf;
 	if (Ret < 0)
 	{
 		CConsole::PrintError(SendError);
