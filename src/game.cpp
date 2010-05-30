@@ -1,5 +1,5 @@
 #include "game.h"
-#include "net.h"
+#include "network.h"
 #include "player.h"
 #include "playfield.h"
 #include "console.h"
@@ -20,7 +20,7 @@ void IGame::Play()
 		CConsole::Print("Player %d's turn\n", i+1);
 		while(!ValidTurn(StackNumber, Amount))
 		{
-			if(!Player()[i]->Turn(&StackNumber, &Amount))
+			if(Player()[i]->Turn(&StackNumber, &Amount) == -1)
 				return;
 		}
 		Field()->RemoveMatches(StackNumber, Amount);
@@ -79,7 +79,7 @@ int CLocalGame::DoInit()
 CServerGame::CServerGame()
 {
 	m_Initiated = false;
-	m_pNet = CreateNet();;
+	m_pNetwork = CreateServer();
 	m_pVisualisation = CreateVisualisation();
 }
 
@@ -92,29 +92,24 @@ CServerGame::~CServerGame()
 		delete m_paPlayer[1];
 		delete m_pField;
 	}
-	delete m_pNet;
+	delete m_pNetwork;
 }
 
 int CServerGame::DoInit()
 {
-		int Error;
-		bool Error2;
 		CConsole::Print("Number of stacks: ");
 		CConsole::GetInteger(&m_StackNumber);
 		CConsole::Print("Maximum number of matches takable: ");
 		CConsole::GetInteger(&m_MaxAmount);
-		Error = m_pNet->Startup();
-		if(Error == -1)
+		if(m_pNetwork->Startup() == -1)
 			return -1;
-		Error2 = m_pNet->Send(&m_StackNumber, sizeof (int));
-		if(Error2 == false)
+		if(m_pNetwork->Send(&m_StackNumber, sizeof (int)) == -1)
 			return -1;
-		Error2 = m_pNet->Send(&m_MaxAmount, sizeof (int));
-		if(Error2 == false)
+		if(m_pNetwork->Send(&m_MaxAmount, sizeof (int)) == -1)
 			return -1;
 		m_pField = CreatePlayfield(m_StackNumber, m_MaxAmount);
-		m_paPlayer[0] = new CLocalNetPlayer(m_pNet, this);
-		m_paPlayer[1] = new CDistantNetPlayer(m_pNet, this);
+		m_paPlayer[0] = new CLocalNetPlayer(m_pNetwork, this);
+		m_paPlayer[1] = new CDistantNetPlayer(m_pNetwork, this);
 		m_Initiated = true;
 		return 0;
 }
@@ -122,7 +117,7 @@ int CServerGame::DoInit()
 CClientGame::CClientGame()
 {
 	m_Initiated = false;
-	m_pNet = CreateNet();
+	m_pNetwork = CreateClient();
 	m_pVisualisation = CreateVisualisation();
 }
 
@@ -135,28 +130,25 @@ CClientGame::~CClientGame()
 		delete m_paPlayer[1];
 		delete m_pField;
 	}
-	delete m_pNet;
+	delete m_pNetwork;
 }
 
 int CClientGame::DoInit()
 {
-		int Error;
-		bool Error2;
-		char aIpString[100];
+		char aIp[100];
 		CConsole::Print("Serveraddress: ");
-		CConsole::GetString(aIpString);
-		Error = m_pNet->Startup(aIpString);
-		if(Error == -1)
+		CConsole::GetString(aIp);
+		if(m_pNetwork->Connect(aIp) == -1)
 			return -1;
-		Error2 = m_pNet->Recv(&m_StackNumber, sizeof (int));
-		if(Error2 == false)
+		if(m_pNetwork->Startup() == -1)
 			return -1;
-		Error2 = m_pNet->Recv(&m_MaxAmount, sizeof (int));
-		if(Error2 == false)
+		if(m_pNetwork->Recv(&m_StackNumber, sizeof (int)) <= 0)
+			return -1;
+		if(m_pNetwork->Recv(&m_MaxAmount, sizeof (int)) <= 0)
 			return -1;
 		m_pField = CreatePlayfield(m_StackNumber, m_MaxAmount);
-		m_paPlayer[0] = new CDistantNetPlayer(m_pNet, this);
-		m_paPlayer[1] = new CLocalNetPlayer(m_pNet, this);
+		m_paPlayer[0] = new CDistantNetPlayer(m_pNetwork, this);
+		m_paPlayer[1] = new CLocalNetPlayer(m_pNetwork, this);
 		m_Initiated = true;
 		return 0;
 }

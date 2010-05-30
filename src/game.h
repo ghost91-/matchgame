@@ -2,7 +2,7 @@
 #define GAME_DEFINED
 
 class CPlayfield;
-class CNet;
+class INetwork;
 class IPlayer;
 class IVisualisation;
 
@@ -51,7 +51,7 @@ class CLocalGame : public IGame
 class CServerGame : public IGame
 {
 	private:
-	CNet *m_pNet;
+	INetwork *m_pNetwork;
 
 	protected:
 	int DoInit();
@@ -65,7 +65,7 @@ class CServerGame : public IGame
 class CClientGame : public IGame
 {
 	private:
-	CNet *m_pNet;
+	INetwork *m_pNetwork;
 
 	protected:
 	int DoInit();

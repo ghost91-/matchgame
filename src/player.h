@@ -1,7 +1,7 @@
 #ifndef PLAYER_DEFINED
 #define PLAYER_DEFINED
 
-class CNet;
+class INetwork;
 class IGame;
 
 enum PlayerType
@@ -19,18 +19,18 @@ class IPlayer
 	IGame *m_pGame;
 
 	IGame *Game() { return m_pGame; }
-	virtual bool DoTurn(int *pStackNumber, int *pAmount) = 0;
+	virtual int DoTurn(int *pStackNumber, int *pAmount) = 0;
 	void TurnInput(int *pStackNumber, int *pAmount);
 
 	public:
 	virtual ~IPlayer() {}
-	bool Turn(int *pStackNumber, int *pAmount) { return DoTurn(pStackNumber, pAmount); }
+	int Turn(int *pStackNumber, int *pAmount) { return DoTurn(pStackNumber, pAmount); }
 } ;
 
 class CLocalPlayer : public IPlayer
 {
 	protected:
-	bool DoTurn(int *pStackNumber, int *pAmount);
+	int DoTurn(int *pStackNumber, int *pAmount);
 
 	public:
 	CLocalPlayer(IGame *pGame);
@@ -39,29 +39,29 @@ class CLocalPlayer : public IPlayer
 class CLocalNetPlayer : public IPlayer
 {
 	protected:
-	bool DoTurn(int *pStackNumber, int *pAmount);
+	int DoTurn(int *pStackNumber, int *pAmount);
 
 	private:
-	CNet *m_pNet;
+	INetwork *m_pNetwork;
 
-	CNet *Net() { return m_pNet; }
+	INetwork *Network() { return m_pNetwork; }
 
 	public:
-	CLocalNetPlayer(CNet *pNet, IGame *pGame);
+	CLocalNetPlayer(INetwork *pNetwork, IGame *pGame);
 } ;
 
 class CDistantNetPlayer : public IPlayer
 {
 	protected:
-	bool DoTurn(int *pStackNumber, int *pAmount);
+	int DoTurn(int *pStackNumber, int *pAmount);
 
 	private:
-	CNet *m_pNet;
+	INetwork *m_pNetwork;
 
-	CNet *Net() { return m_pNet; }
+	INetwork *Network() { return m_pNetwork; }
 
 	public:
-	CDistantNetPlayer(CNet *pNet, IGame *pGame);
+	CDistantNetPlayer(INetwork *pNetwork, IGame *pGame);
 } ;
 
 extern IPlayer *CreatePlayer(PlayerType PlayerType);
