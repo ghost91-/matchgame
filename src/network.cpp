@@ -14,11 +14,7 @@ void *INetwork::GetInAddr(struct sockaddr *pSa)
 int INetwork::Init()
 {
 	#ifdef _WIN32  
-	/* Initialisiere TCP für Windows ("winsock") */
-	short wVersionRequested;
-	WSADATA wsaData;
-	wVersionRequested = MAKEWORD (1, 1);
-	if (WSAStartup (wVersionRequested, &wsaData) != 0)
+	if (WSAStartup (MAKEWORD (1, 1), &m_Wsadata) != 0)
 	{
 		return -1;
     	}

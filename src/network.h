@@ -18,6 +18,9 @@
 class INetwork
 {
 	protected:
+	#ifdef _WIN32
+	WSADATA m_Wsadata;
+	#endif
 	struct addrinfo *m_pServInfo;
 	void *GetInAddr(struct sockaddr *pSa);
 	int m_Sockfd;
