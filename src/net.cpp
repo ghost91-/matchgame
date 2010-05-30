@@ -27,22 +27,22 @@ int CNet::Startup(char *pIpString)
 	return Client()->StartConnecting(pIpString);
 }
 
-bool CNet::RecieveNumber(int *pValue)
+bool CNet::Recv(void *pData, unsigned Maxsize)
 {
 	if (m_NetType == ServerNet)
-		return Server()->RecieveNumber(pValue);
+		return Server()->Recv(pData, Maxsize);
 	else if (m_NetType == ClientNet)
-		return Client()->RecieveNumber(pValue);
+		return Client()->Recv(pData, Maxsize);
 	else
 		return false;
 }
 
-bool CNet::SendNumber(int *pValue)
+bool CNet::Send(const void *pData, unsigned Size)
 {
 	if (m_NetType == ServerNet)
-		return Server()->SendNumber(pValue);
+		return Server()->Send(pData, Size);
 	else if (m_NetType == ClientNet)
-		return Client()->SendNumber(pValue);
+		return Client()->Send(pData, Size);
 	else
 		return false;
 }

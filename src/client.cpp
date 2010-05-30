@@ -89,12 +89,10 @@ int CClient::StartConnecting(char *pIpString)
 	return 0;
 }
 
-bool CClient::RecieveNumber(int *pValue)
+bool CClient::Recv(void *pData, unsigned Maxsize)
 {
 	int Ret;
-	char aBuf[128];
-	Ret = recv(m_Sockfd, aBuf, sizeof aBuf, 0);
-	*pValue = atoi(aBuf);
+	Ret = recv(m_Sockfd, (char*)pData, Maxsize, 0);
 	if (Ret < 0)
 	{
 		CConsole::PrintError(RecvError);
@@ -108,15 +106,13 @@ bool CClient::RecieveNumber(int *pValue)
 	return true;
 }
 
-bool CClient::SendNumber(int *pValue)
+bool CClient::Send(const void *pData, unsigned Size)
 {
 	int Ret;
-	char aBuf[128];
-	sprintf(aBuf, "%d", *pValue);
 	#ifdef _WIN32
-	Ret = send(m_Sockfd, aBuf, sizeof aBuf, 0);
+	Ret = send(m_Sockfd, (const char*)pData, Size, 0);
 	#else
-	Ret = send(m_Sockfd, aBuf, sizeof aBuf, MSG_NOSIGNAL);
+	Ret = send(m_Sockfd, (const char*)pData, Size, MSG_NOSIGNAL);
 	#endif
 	if (Ret < 0)
 	{

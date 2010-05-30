@@ -26,7 +26,7 @@ CLocalNetPlayer::CLocalNetPlayer(CNet *pNet, IGame *pGame)
 bool CLocalNetPlayer::DoTurn(int *pStackNumber, int *pAmount)
 {
 	TurnInput(pStackNumber, pAmount);
-	return (Net()->SendNumber(pStackNumber) && Net()->SendNumber(pAmount));
+	return (Net()->Send(pStackNumber, sizeof (int)) && Net()->Send(pAmount, sizeof (int)));
 }
 
 CDistantNetPlayer::CDistantNetPlayer(CNet *pNet, IGame *pGame)
@@ -38,7 +38,7 @@ CDistantNetPlayer::CDistantNetPlayer(CNet *pNet, IGame *pGame)
 
 bool CDistantNetPlayer::DoTurn(int *pStackNumber, int *pAmount)
 {
-	return (Net()->RecieveNumber(pStackNumber) && Net()->RecieveNumber(pAmount));
+	return (Net()->Recv(pStackNumber, sizeof (int)) && Net()->Recv(pAmount, sizeof (int)));
 }
 
 void IPlayer::TurnInput(int *pStackNumber, int *pAmount)

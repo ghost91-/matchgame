@@ -30,8 +30,8 @@ class CServer
 
 	public:
 	int StartupServer();
-	bool RecieveNumber(int *pValue);
-	bool SendNumber(int *pValue);
+	bool Recv(void *pData, unsigned Maxsize);
+	bool Send(const void *pData, unsigned Size);
 	void CloseConnection();
 } ;
 

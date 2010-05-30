@@ -106,10 +106,10 @@ int CServerGame::DoInit()
 		Error = m_pNet->Startup();
 		if(Error == -1)
 			return -1;
-		Error2 = m_pNet->SendNumber(&m_StackNumber);
+		Error2 = m_pNet->Send(&m_StackNumber, sizeof (int));
 		if(Error2 == false)
 			return -1;
-		Error2 = m_pNet->SendNumber(&m_MaxAmount);
+		Error2 = m_pNet->Send(&m_MaxAmount, sizeof (int));
 		if(Error2 == false)
 			return -1;
 		m_pField = CreatePlayfield(m_StackNumber, m_MaxAmount);
@@ -148,10 +148,10 @@ int CClientGame::DoInit()
 		Error = m_pNet->Startup(aIpString);
 		if(Error == -1)
 			return -1;
-		Error2 = m_pNet->RecieveNumber(&m_StackNumber);
+		Error2 = m_pNet->Recv(&m_StackNumber, sizeof (int));
 		if(Error2 == false)
 			return -1;
-		Error2 = m_pNet->RecieveNumber(&m_MaxAmount);
+		Error2 = m_pNet->Recv(&m_MaxAmount, sizeof (int));
 		if(Error2 == false)
 			return -1;
 		m_pField = CreatePlayfield(m_StackNumber, m_MaxAmount);
