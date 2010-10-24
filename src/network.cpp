@@ -33,7 +33,7 @@ int INetwork::Recv(void *pData, unsigned Maxsize)
 int INetwork::Send(const void *pData, unsigned Size)
 {
 	int Ret;
-	#ifdef _WIN32
+	#if defined (_WIN32) || defined (__APPLE__)
 	Ret = send(m_Sockfd, (const char*)pData, Size, 0);
 	#else
 	Ret = send(m_Sockfd, (const char*)pData, Size, MSG_NOSIGNAL);
