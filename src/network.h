@@ -22,7 +22,7 @@ class INetwork
 	void *GetInAddr(struct sockaddr *pSa);
 	int m_Sockfd;
 	virtual int DoStartup() = 0;
-	virtual int DoConnect(const char *pIp) = 0;
+	virtual int DoConnect(const char *pIp) { return 0; }
 
 	public:
 	virtual ~INetwork() {}
@@ -43,7 +43,7 @@ class CServer : public INetwork
 
 	protected:
 	int DoStartup();
-	int DoConnect(const char *pIp) { return 0; }
+	//int DoConnect(const char *pIp) { return 0; }
 } ;
 
 class CClient : public INetwork

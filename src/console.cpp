@@ -4,7 +4,7 @@ void CConsole::Print(const char *pFmt, ...)
 {
 	va_list Args;
 	va_start(Args, pFmt);
-	vprintf(pFmt, Args);
+	std::vprintf(pFmt, Args);
 	va_end(Args);
 }
 
