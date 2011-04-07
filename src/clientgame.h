@@ -14,7 +14,6 @@ class CClientGame : public CGame
 	CClientGame();
 	~CClientGame();
 	int Init();
-	void Play();
 } ;
 
 #endif

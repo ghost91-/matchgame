@@ -1,7 +1,7 @@
 #include "servergame.h"
 #include "game.h"
 #include "network.h"
-#incldue "playfield.h"
+#include "playfield.h"
 #include "player.h"
 #include "console.h"
 
@@ -33,11 +33,6 @@ int CServerGame::Init()
 		m_paPlayer[1] = new CDistantNetPlayer(m_pNetwork, this);
 		m_Initiated = true;
 		return 0;
-}
-
-void CServerGame::Play()
-{
-	return CGame::Play();
 }
 
 IGame *CreateServerGame()

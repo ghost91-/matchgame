@@ -2,6 +2,11 @@
 #include "network.h"
 #include "console.h"
 
+CServer::~CServer()
+{
+	Shutdown();
+}
+
 void *CServer::GetInAddr(struct sockaddr *pSa)
 {
 	if (pSa->sa_family == AF_INET)

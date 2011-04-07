@@ -32,7 +32,6 @@ class CGame : public IGame
 	IPlayer *m_paPlayer[2];
 	IVisualisation *m_pVisualisation;
 
-	virtual int DoInit() = 0;
 	IPlayer **Player() { return m_paPlayer; }
 	CPlayfield *Field() { return m_pField; }
 	IVisualisation *Visualisation() { return m_pVisualisation; }

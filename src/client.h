@@ -14,6 +14,7 @@ class CClient : public INetwork
 
 	public:
 
+	~CClient();
 	virtual int Init();
 	virtual int Recv(void *pData, unsigned Maxsize);
 	virtual int Send(const void *pData, unsigned Size);

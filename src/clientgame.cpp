@@ -1,14 +1,14 @@
 #include "clientgame.h"
 #include "game.h"
 #include "network.h"
-#incldue "playfield.h"
+#include "playfield.h"
 #include "player.h"
 #include "console.h"
 
 
 CClientGame::CClientGame()
 {
-	m_GameType = CLientGame;
+	m_GameType = ClientGame;
 	m_pNetwork = CreateClient();
 }
 
@@ -32,12 +32,7 @@ int CClientGame::Init()
 		return 0;
 }
 
-void CCLientGame::Play()
-{
-	return CGame::Play();
-}
-
-IGame *CreateCLientGame()
+IGame *CreateClientGame()
 {
 	return new CClientGame;
 }

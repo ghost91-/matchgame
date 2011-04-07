@@ -14,7 +14,6 @@ class CServerGame : public CGame
 	CServerGame();
 	~CServerGame();
 	int Init();
-	void Play();
 } ;
 
 #endif

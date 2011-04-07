@@ -15,6 +15,7 @@ class CServer : public INetwork
 	void *GetInAddr(struct sockaddr *pSa);
 
 	public:
+	~CServer();
 	virtual int Init();
 	virtual int Recv(void *pData, unsigned Maxsize);
 	virtual int Send(const void *pData, unsigned Size);

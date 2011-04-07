@@ -27,7 +27,25 @@ void CApplication::Run()
 
 void CApplication::StartGame(GameType GameType)
 {
-	IGame *pGame = CreateGame(GameType);
+	IGame *pGame;
+	switch(GameType)
+	{
+		case LocalGame:
+		pGame = CreateLocalGame();
+		break;
+
+		case ServerGame:
+		pGame = CreateServerGame();
+		break;
+
+		case ClientGame:
+		pGame = CreateClientGame();
+		break;
+		
+		default:
+		pGame = CreateGame();
+		break;
+	}
 	if(pGame->Init() == 0)
 		pGame->Play();
 	delete pGame;

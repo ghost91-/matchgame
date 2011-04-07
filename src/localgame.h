@@ -7,6 +7,6 @@ class CLocalGame : public CGame
 {	
 	public:
 	CLocalGame();
-	int Init();
-	void Play();
 } ;
+
+#endif
