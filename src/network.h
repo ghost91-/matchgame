@@ -17,40 +17,12 @@
 
 class INetwork
 {
-	protected:
-	struct addrinfo *m_pServInfo;
-	void *GetInAddr(struct sockaddr *pSa);
-	int m_Sockfd;
-	virtual int DoStartup() = 0;
-	virtual int DoConnect(const char *pIp) { return 0; }
-
 	public:
 	virtual ~INetwork() {}
-	int Init();
-	int Recv(void *pData, unsigned Maxsize);
-	int Send(const void *pData, unsigned Size);
-	void Shutdown();
-	int Startup() { return DoStartup(); }
-	int Connect(const char *pIp) { return DoConnect(pIp); }
-} ;
-
-class CServer : public INetwork
-{
-	private:
-	int m_OwnSockfd;
-	struct sockaddr_storage m_TheirAddr;
-	socklen_t m_SinSize;
-
-	protected:
-	int DoStartup();
-	//int DoConnect(const char *pIp) { return 0; }
-} ;
-
-class CClient : public INetwork
-{
-	protected:
-	int DoStartup();
-	int DoConnect(const char *pIp);
+	virtual int Init() = 0;
+	virtual int Recv(void *pData, unsigned Maxsize) = 0;
+	virtual int Send(const void *pData, unsigned Size) = 0;
+	virtual void Shutdown() = 0;
 } ;
 
 extern INetwork *CreateServer();

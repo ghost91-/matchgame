@@ -4,7 +4,7 @@ cc         = gcc
 CFLAGS     = -Wall
 DBGFLAGS   = -g
 SYSTEM     = $(shell $(cc) -dumpmachine)
-OBJECTS    = main.o application.o menu.o console.o game.o visualisation.o network.o player.o playfield.o
+OBJECTS    = main.o application.o menu.o console.o game.o visualisation.o server.o client.o player.o playfield.o
 OBJPATH    = objects/
 SRCPATH    = src/
 OBJ        = $(OBJECTS:%.o=$(OBJPATH)%.o)
@@ -56,7 +56,10 @@ $(OBJPATH)game.o: $(SRCPATH)game.cpp $(SRCPATH)game.h $(SRCPATH)network.h $(SRCP
 $(OBJPATH)visualisation.o: $(SRCPATH)visualisation.cpp $(SRCPATH)visualisation.h $(SRCPATH)playfield.h $(SRCPATH)console.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-$(OBJPATH)network.o: $(SRCPATH)network.cpp $(SRCPATH)network.h
+$(OBJPATH)client.o: $(SRCPATH)client.cpp $(SRCPATH)client.h $(SRCPATH)network.h $(SRCPATH)console.h
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+$(OBJPATH)server.o: $(SRCPATH)server.cpp $(SRCPATH)server.h $(SRCPATH)network.h $(SRCPATH)console.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 $(OBJPATH)player.o: $(SRCPATH)player.cpp $(SRCPATH)player.h $(SRCPATH)network.h $(SRCPATH)game.h $(SRCPATH)console.h $(SRCPATH)playfield.h
@@ -83,7 +86,10 @@ $(OBJPATH)game.o_d: $(SRCPATH)game.cpp $(SRCPATH)game.h $(SRCPATH)network.h $(SR
 $(OBJPATH)visualisation.o_d: $(SRCPATH)visualisation.cpp $(SRCPATH)visualisation.h $(SRCPATH)playfield.h $(SRCPATH)console.h
 	$(CC) $(CFLAGS) $(DBGFLAGS) -c -o $@ $<
 
-$(OBJPATH)network.o_d: $(SRCPATH)network.cpp $(SRCPATH)network.h
+$(OBJPATH)client.o_d: $(SRCPATH)client.cpp $(SRCPATH)client.h $(SRCPATH)network.h $(SRCPATH)console.h
+	$(CC) $(CFLAGS) $(DBGFLAGS) -c -o $@ $<
+
+$(OBJPATH)server.o_d: $(SRCPATH)server.cpp $(SRCPATH)server.h $(SRCPATH)network.h $(SRCPATH)console.h
 	$(CC) $(CFLAGS) $(DBGFLAGS) -c -o $@ $<
 
 $(OBJPATH)player.o_d: $(SRCPATH)player.cpp $(SRCPATH)player.h $(SRCPATH)network.h $(SRCPATH)game.h $(SRCPATH)console.h $(SRCPATH)playfield.h

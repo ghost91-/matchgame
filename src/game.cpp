@@ -103,8 +103,6 @@ int CServerGame::DoInit()
 		CConsole::GetInteger(&m_MaxAmount);
 		if(m_pNetwork->Init() == -1)
 			return -1;
-		if(m_pNetwork->Startup() == -1)
-			return -1;
 		if(m_pNetwork->Send(&m_StackNumber, sizeof (int)) == -1)
 			return -1;
 		if(m_pNetwork->Send(&m_MaxAmount, sizeof (int)) == -1)
@@ -137,14 +135,7 @@ CClientGame::~CClientGame()
 
 int CClientGame::DoInit()
 {
-		char aIp[100];
-		CConsole::Print("Serveraddress: ");
-		CConsole::GetString(aIp);
 		if(m_pNetwork->Init() == -1)
-			return -1;
-		if(m_pNetwork->Connect(aIp) == -1)
-			return -1;
-		if(m_pNetwork->Startup() == -1)
 			return -1;
 		if(m_pNetwork->Recv(&m_StackNumber, sizeof (int)) <= 0)
 			return -1;
