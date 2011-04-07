@@ -1,5 +1,10 @@
-# Compiled Object files
+# Compiled files
+matchgame
+matchgame_d
+
+# Compiled object files
 *.o
+*.o_d
 
 # Mac OS X files
 .DS_Store
