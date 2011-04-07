@@ -1,11 +1,10 @@
 #include "game.h"
-#include "network.h"
 #include "player.h"
 #include "playfield.h"
 #include "console.h"
 #include "visualisation.h"
 
-void IGame::Play()
+void CGame::Play()
 {
 	int StackNumber, Amount;
 	CConsole::Print("You may take up to %d matches from one stack each turn!\n", m_MaxAmount);
@@ -33,7 +32,7 @@ void IGame::Play()
 	}
 }
 
-bool IGame::AllowedToTakeMatches(int Amount)
+bool CGame::AllowedToTakeMatches(int Amount)
 {
 	if ((Amount > m_MaxAmount) || (Amount < 1))
 		return false;
@@ -41,18 +40,19 @@ bool IGame::AllowedToTakeMatches(int Amount)
 		return true;
 }
 
-bool IGame::ValidTurn(int StackNumber, int Amount)
+bool CGame::ValidTurn(int StackNumber, int Amount)
 {
 	return (AllowedToTakeMatches(Amount) && Field()->CanTakeMatches(StackNumber, Amount));
 }
 
-CLocalGame::CLocalGame()
+CGame::CGame()
 {
 	m_Initiated = false;
 	m_pVisualisation = CreateVisualisation();
+	m_GameType = Unknown;
 }
 
-CLocalGame::~CLocalGame()
+CGame::~CGame()
 {
 	delete m_pVisualisation;
 	if(m_Initiated)
@@ -63,7 +63,7 @@ CLocalGame::~CLocalGame()
 	}
 }
 
-int CLocalGame::DoInit()
+int CGame::Init()
 {
 		CConsole::Print("Number of stacks: ");
 		CConsole::GetInteger(&m_StackNumber);
@@ -76,94 +76,9 @@ int CLocalGame::DoInit()
 		return 0;
 }
 
-CServerGame::CServerGame()
+IGame *CreateGame()
 {
-	m_Initiated = false;
-	m_pNetwork = CreateServer();
-	m_pVisualisation = CreateVisualisation();
-}
-
-CServerGame::~CServerGame()
-{
-	delete m_pVisualisation;
-	if(m_Initiated)
-	{
-		delete m_paPlayer[0];
-		delete m_paPlayer[1];
-		delete m_pField;
-	}
-	delete m_pNetwork;
-}
-
-int CServerGame::DoInit()
-{
-		CConsole::Print("Number of stacks: ");
-		CConsole::GetInteger(&m_StackNumber);
-		CConsole::Print("Maximum number of matches takable: ");
-		CConsole::GetInteger(&m_MaxAmount);
-		if(m_pNetwork->Init() == -1)
-			return -1;
-		if(m_pNetwork->Send(&m_StackNumber, sizeof (int)) == -1)
-			return -1;
-		if(m_pNetwork->Send(&m_MaxAmount, sizeof (int)) == -1)
-			return -1;
-		m_pField = CreatePlayfield(m_StackNumber, m_MaxAmount);
-		m_paPlayer[0] = new CLocalNetPlayer(m_pNetwork, this);
-		m_paPlayer[1] = new CDistantNetPlayer(m_pNetwork, this);
-		m_Initiated = true;
-		return 0;
-}
-
-CClientGame::CClientGame()
-{
-	m_Initiated = false;
-	m_pNetwork = CreateClient();
-	m_pVisualisation = CreateVisualisation();
-}
-
-CClientGame::~CClientGame()
-{
-	delete m_pVisualisation;
-	if(m_Initiated)
-	{
-		delete m_paPlayer[0];
-		delete m_paPlayer[1];
-		delete m_pField;
-	}
-	delete m_pNetwork;
-}
-
-int CClientGame::DoInit()
-{
-		if(m_pNetwork->Init() == -1)
-			return -1;
-		if(m_pNetwork->Recv(&m_StackNumber, sizeof (int)) <= 0)
-			return -1;
-		if(m_pNetwork->Recv(&m_MaxAmount, sizeof (int)) <= 0)
-			return -1;
-		m_pField = CreatePlayfield(m_StackNumber, m_MaxAmount);
-		m_paPlayer[0] = new CDistantNetPlayer(m_pNetwork, this);
-		m_paPlayer[1] = new CLocalNetPlayer(m_pNetwork, this);
-		m_Initiated = true;
-		return 0;
-}
-
-IGame *CreateGame(GameType GameType)
-{
-	switch(GameType)
-	{
-		case LocalGame:
-		return new CLocalGame;
-		break;
-
-		case ClientGame:
-		return new CClientGame;
-		break;
-
-		default:
-		return new CServerGame;
-		break;
-	}
+	return new CGame;
 }
 
 

@@ -8,6 +8,7 @@ class IVisualisation;
 
 enum GameType
 {
+	Unknown,
 	LocalGame,
 	ServerGame,
 	ClientGame
@@ -15,7 +16,16 @@ enum GameType
 
 class IGame
 {
+	public:
+	virtual ~IGame() {}
+	virtual int Init() = 0;
+	virtual void Play() = 0;
+} ;
+
+class CGame : public IGame
+{
 	protected:
+	GameType m_GameType;
 	bool m_Initiated;
 	int m_StackNumber, m_MaxAmount;
 	CPlayfield *m_pField;
@@ -32,51 +42,16 @@ class IGame
 	void ShowPlayfield();
 
 	public:
-	virtual ~IGame() {}
-	int Init() { return DoInit(); }
-	void Play();
+	CGame();
+	virtual ~CGame();
+	virtual int Init();
+	virtual void Play();
 } ;
 
-class CLocalGame : public IGame
-{
-	protected:
-	int DoInit();
-
-	public:
-	CLocalGame();
-	~CLocalGame();
-
-} ;
-
-class CServerGame : public IGame
-{
-	private:
-	INetwork *m_pNetwork;
-
-	protected:
-	int DoInit();
-
-	public:
-	CServerGame();
-	~CServerGame();
-
-} ;
-
-class CClientGame : public IGame
-{
-	private:
-	INetwork *m_pNetwork;
-
-	protected:
-	int DoInit();
-
-	public:
-	CClientGame();
-	~CClientGame();
-
-} ;
-
-extern IGame *CreateGame(GameType GameType);
+extern IGame *CreateGame();
+extern IGame *CreateLocalGame();
+extern IGame *CreateServerGame();
+extern IGame *CreateClientGame();
 
 #endif
 
