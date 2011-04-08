@@ -4,7 +4,7 @@ cc         = gcc
 CFLAGS     = -Wall
 DBGFLAGS   = -g
 SYSTEM     = $(shell $(cc) -dumpmachine)
-OBJECTS    = main.o application.o menu.o console.o game.o visualisation.o server.o client.o player.o playfield.o
+OBJECTS    = main.o application.o menu.o console.o game.o localgame.o servergame.o clientgame.o visualisation.o server.o client.o player.o playfield.o
 OBJPATH    = objects/
 SRCPATH    = src/
 OBJ        = $(OBJECTS:%.o=$(OBJPATH)%.o)
@@ -50,7 +50,16 @@ $(OBJPATH)menu.o: $(SRCPATH)menu.cpp $(SRCPATH)menu.h $(SRCPATH)console.h
 $(OBJPATH)console.o: $(SRCPATH)console.cpp $(SRCPATH)console.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-$(OBJPATH)game.o: $(SRCPATH)game.cpp $(SRCPATH)game.h $(SRCPATH)network.h $(SRCPATH)player.h $(SRCPATH)visualisation.h $(SRCPATH)console.h $(SRCPATH)playfield.h 
+$(OBJPATH)game.o: $(SRCPATH)game.cpp $(SRCPATH)game.h $(SRCPATH)player.h $(SRCPATH)visualisation.h $(SRCPATH)console.h $(SRCPATH)playfield.h 
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+$(OBJPATH)localgame.o: $(SRCPATH)localgame.cpp $(SRCPATH)localgame.h $(SRCPATH)game.h 
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+$(OBJPATH)servergame.o: $(SRCPATH)servergame.cpp $(SRCPATH)servergame.h $(SRCPATH)game.h $(SRCPATH)network.h $(SRCPATH)player.h $(SRCPATH)console.h $(SRCPATH)playfield.h 
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+$(OBJPATH)clientgame.o: $(SRCPATH)clientgame.cpp $(SRCPATH)clientgame.h $(SRCPATH)game.h $(SRCPATH)network.h $(SRCPATH)player.h $(SRCPATH)console.h $(SRCPATH)playfield.h 
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 $(OBJPATH)visualisation.o: $(SRCPATH)visualisation.cpp $(SRCPATH)visualisation.h $(SRCPATH)playfield.h $(SRCPATH)console.h
@@ -80,7 +89,16 @@ $(OBJPATH)menu.o_d: $(SRCPATH)menu.cpp $(SRCPATH)menu.h $(SRCPATH)console.h
 $(OBJPATH)console.o_d: $(SRCPATH)console.cpp $(SRCPATH)console.h
 	$(CC) $(CFLAGS) $(DBGFLAGS) -c -o $@ $<
 
-$(OBJPATH)game.o_d: $(SRCPATH)game.cpp $(SRCPATH)game.h $(SRCPATH)network.h $(SRCPATH)player.h $(SRCPATH)visualisation.h $(SRCPATH)console.h $(SRCPATH)playfield.h 
+$(OBJPATH)game.o_d: $(SRCPATH)game.cpp $(SRCPATH)game.h $(SRCPATH)player.h $(SRCPATH)visualisation.h $(SRCPATH)console.h $(SRCPATH)playfield.h 
+	$(CC) $(CFLAGS) $(DBGFLAGS) -c -o $@ $<
+
+$(OBJPATH)localgame.o_d: $(SRCPATH)localgame.cpp $(SRCPATH)localgame.h $(SRCPATH)game.h 
+	$(CC) $(CFLAGS) $(DBGFLAGS) -c -o $@ $<
+
+$(OBJPATH)servergame.o_d: $(SRCPATH)servergame.cpp $(SRCPATH)servergame.h $(SRCPATH)game.h $(SRCPATH)network.h $(SRCPATH)player.h $(SRCPATH)console.h $(SRCPATH)playfield.h 
+	$(CC) $(CFLAGS) $(DBGFLAGS) -c -o $@ $<
+
+$(OBJPATH)clientgame.o_d: $(SRCPATH)clientgame.cpp $(SRCPATH)clientgame.h $(SRCPATH)game.h $(SRCPATH)network.h $(SRCPATH)player.h $(SRCPATH)console.h $(SRCPATH)playfield.h 
 	$(CC) $(CFLAGS) $(DBGFLAGS) -c -o $@ $<
 
 $(OBJPATH)visualisation.o_d: $(SRCPATH)visualisation.cpp $(SRCPATH)visualisation.h $(SRCPATH)playfield.h $(SRCPATH)console.h

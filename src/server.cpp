@@ -117,6 +117,7 @@ int CServer::Send(const void *pData, unsigned Size)
 void CServer::Shutdown()
 {
 	close(m_Sockfd);
+	close(m_OwnSockfd);
 	return;
 }
 
