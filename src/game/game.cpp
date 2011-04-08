@@ -1,7 +1,7 @@
 #include "game.h"
 #include "player.h"
 #include "playfield.h"
-#include "console.h"
+#include "../engine/console.h"
 #include "visualisation.h"
 
 void CGame::Play()

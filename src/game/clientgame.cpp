@@ -1,9 +1,9 @@
 #include "clientgame.h"
 #include "game.h"
-#include "network.h"
+#include "../engine/network.h"
 #include "playfield.h"
 #include "player.h"
-#include "console.h"
+#include "../engine/console.h"
 
 
 CClientGame::CClientGame()

@@ -1,5 +1,5 @@
 #include "menu.h"
-#include "console.h"
+#include "../engine/console.h"
 
 void CMenu::DoDisplay()
 {

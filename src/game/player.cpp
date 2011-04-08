@@ -1,7 +1,7 @@
 #include "player.h"
-#include "network.h"
+#include "../engine/network.h"
 #include "game.h"
-#include "console.h"
+#include "../engine/console.h"
 #include "playfield.h"
 
 CLocalPlayer::CLocalPlayer(IGame *pGame)

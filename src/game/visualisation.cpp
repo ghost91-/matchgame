@@ -1,6 +1,6 @@
 #include "visualisation.h"
 #include "playfield.h"
-#include "console.h"
+#include "../engine/console.h"
 
 class CVisualisation : public IVisualisation
 {

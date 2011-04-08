@@ -1,5 +1,5 @@
 #include "application.h"
-#include "menu.h"
+#include "../game/menu.h"
 
 CApplication::CApplication() : m_Running(true)
 {

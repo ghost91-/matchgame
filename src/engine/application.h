@@ -1,7 +1,7 @@
 #ifndef APP_DEFINED
 #define APP_DEFINED
 
-#include "game.h"
+#include "../game/game.h"
 
 class IMenu;
 
