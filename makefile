@@ -4,7 +4,7 @@ cc         = gcc
 CFLAGS     = -Wall -O2
 DBGFLAGS   = -g
 SYSTEM     = $(shell $(cc) -dumpmachine)
-OBJECTS    = main.o application.o menu.o console.o game.o localgame.o servergame.o clientgame.o visualisation.o server.o client.o player.o playfield.o
+OBJECTS    = main.o application.o menu.o console.o game.o localgame.o servergame.o clientgame.o visualisation.o server.o client.o player.o localplayer.o localnetplayer.o distantnetplayer.o playfield.o 
 OBJPATH    = objects/
 SRCPATH    = src/
 OBJ        = $(OBJECTS:%.o=$(OBJPATH)%.o)
@@ -54,11 +54,14 @@ $(OBJPATH)application.o: $(SRCPATH)application.cpp $(SRCPATH)application.h $(SRC
 $(OBJPATH)client.o: $(SRCPATH)client.cpp $(SRCPATH)client.h $(SRCPATH)network.h $(SRCPATH)console.h
 $(OBJPATH)clientgame.o: $(SRCPATH)clientgame.cpp $(SRCPATH)clientgame.h $(SRCPATH)game.h $(SRCPATH)network.h $(SRCPATH)playfield.h $(SRCPATH)player.h $(SRCPATH)console.h
 $(OBJPATH)console.o: $(SRCPATH)console.cpp $(SRCPATH)console.h
+$(OBJPATH)distantnetplayer.o: $(SRCPATH)distantnetplayer.cpp $(SRCPATH)distantnetplayer.h $(SRCPATH)player.h $(SRCPATH)game.h $(SRCPATH)network.h
 $(OBJPATH)game.o: $(SRCPATH)game.cpp $(SRCPATH)game.h $(SRCPATH)player.h $(SRCPATH)playfield.h $(SRCPATH)console.h $(SRCPATH)visualisation.h
 $(OBJPATH)localgame.o: $(SRCPATH)localgame.cpp $(SRCPATH)localgame.h $(SRCPATH)game.h
+$(OBJPATH)localnetplayer.o: $(SRCPATH)localnetplayer.cpp $(SRCPATH)localnetplayer.h $(SRCPATH)player.h $(SRCPATH)game.h $(SRCPATH)network.h
+$(OBJPATH)localplayer.o: $(SRCPATH)localplayer.cpp $(SRCPATH)localplayer.h $(SRCPATH)player.h $(SRCPATH)game.h
 $(OBJPATH)main.o: $(SRCPATH)main.cpp $(SRCPATH)application.h $(SRCPATH)game.h
 $(OBJPATH)menu.o: $(SRCPATH)menu.cpp $(SRCPATH)menu.h $(SRCPATH)console.h
-$(OBJPATH)player.o: $(SRCPATH)player.cpp $(SRCPATH)player.h $(SRCPATH)network.h $(SRCPATH)game.h $(SRCPATH)console.h $(SRCPATH)playfield.h
+$(OBJPATH)player.o: $(SRCPATH)player.cpp $(SRCPATH)player.h $(SRCPATH)game.h $(SRCPATH)console.h $(SRCPATH)playfield.h
 $(OBJPATH)playfield.o: $(SRCPATH)playfield.cpp $(SRCPATH)playfield.h
 $(OBJPATH)server.o: $(SRCPATH)server.cpp $(SRCPATH)server.h $(SRCPATH)network.h $(SRCPATH)console.h
 $(OBJPATH)servergame.o: $(SRCPATH)servergame.cpp $(SRCPATH)servergame.h $(SRCPATH)game.h $(SRCPATH)network.h $(SRCPATH)playfield.h $(SRCPATH)player.h $(SRCPATH)console.h
@@ -69,11 +72,14 @@ $(OBJPATH)application.o_d: $(SRCPATH)application.cpp $(SRCPATH)application.h $(S
 $(OBJPATH)client.o_d: $(SRCPATH)client.cpp $(SRCPATH)client.h $(SRCPATH)network.h $(SRCPATH)console.h
 $(OBJPATH)clientgame.o_d: $(SRCPATH)clientgame.cpp $(SRCPATH)clientgame.h $(SRCPATH)game.h $(SRCPATH)network.h $(SRCPATH)playfield.h $(SRCPATH)player.h $(SRCPATH)console.h
 $(OBJPATH)console.o_d: $(SRCPATH)console.cpp $(SRCPATH)console.h
+$(OBJPATH)distantnetplayer.o_d: $(SRCPATH)distantnetplayer.cpp $(SRCPATH)distantnetplayer.h $(SRCPATH)player.h $(SRCPATH)game.h $(SRCPATH)network.h
 $(OBJPATH)game.o_d: $(SRCPATH)game.cpp $(SRCPATH)game.h $(SRCPATH)player.h $(SRCPATH)playfield.h $(SRCPATH)console.h $(SRCPATH)visualisation.h
 $(OBJPATH)localgame.o_d: $(SRCPATH)localgame.cpp $(SRCPATH)localgame.h $(SRCPATH)game.h
+$(OBJPATH)localnetplayer.o_d: $(SRCPATH)localnetplayer.cpp $(SRCPATH)localnetplayer.h $(SRCPATH)player.h $(SRCPATH)game.h $(SRCPATH)network.h
+$(OBJPATH)localplayer.o_d: $(SRCPATH)localplayer.cpp $(SRCPATH)localplayer.h $(SRCPATH)player.h $(SRCPATH)game.h
 $(OBJPATH)main.o_d: $(SRCPATH)main.cpp $(SRCPATH)application.h $(SRCPATH)game.h
 $(OBJPATH)menu.o_d: $(SRCPATH)menu.cpp $(SRCPATH)menu.h $(SRCPATH)console.h
-$(OBJPATH)player.o_d: $(SRCPATH)player.cpp $(SRCPATH)player.h $(SRCPATH)network.h $(SRCPATH)game.h $(SRCPATH)console.h $(SRCPATH)playfield.h
+$(OBJPATH)player.o_d: $(SRCPATH)player.cpp $(SRCPATH)player.h $(SRCPATH)game.h $(SRCPATH)console.h $(SRCPATH)playfield.h
 $(OBJPATH)playfield.o_d: $(SRCPATH)playfield.cpp $(SRCPATH)playfield.h
 $(OBJPATH)server.o_d: $(SRCPATH)server.cpp $(SRCPATH)server.h $(SRCPATH)network.h $(SRCPATH)console.h
 $(OBJPATH)servergame.o_d: $(SRCPATH)servergame.cpp $(SRCPATH)servergame.h $(SRCPATH)game.h $(SRCPATH)network.h $(SRCPATH)playfield.h $(SRCPATH)player.h $(SRCPATH)console.h

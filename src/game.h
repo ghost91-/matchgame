@@ -8,7 +8,7 @@ class IVisualisation;
 
 enum GameType
 {
-	Unknown,
+	Notknown,
 	LocalGame,
 	ServerGame,
 	ClientGame

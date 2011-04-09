@@ -49,7 +49,7 @@ CGame::CGame()
 {
 	m_Initiated = false;
 	m_pVisualisation = CreateVisualisation();
-	m_GameType = Unknown;
+	m_GameType = Notknown;
 }
 
 CGame::~CGame()
@@ -70,8 +70,8 @@ int CGame::Init()
 		CConsole::Print("Maximum number of matches takable: ");
 		CConsole::GetInteger(&m_MaxAmount);
 		m_pField = CreatePlayfield(m_StackNumber, m_MaxAmount);
-		m_paPlayer[0] = new CLocalPlayer(this);
-		m_paPlayer[1] = new CLocalPlayer(this);
+		m_paPlayer[0] = CreateLocalPlayer(this);
+		m_paPlayer[1] = CreateLocalPlayer(this);
 		m_Initiated = true;
 		return 0;
 }
