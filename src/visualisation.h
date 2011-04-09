@@ -5,12 +5,15 @@ class CPlayfield;
 
 class IVisualisation
 {
-	protected:
-	virtual void DoShowField(CPlayfield *pField) = 0;
-
 	public:
 	virtual ~IVisualisation() {}
-	void ShowField(CPlayfield *pField) { return DoShowField(pField); }
+	virtual void ShowField(CPlayfield *pField) = 0;
+} ;
+
+class CVisualisation : public IVisualisation
+{
+	public:
+	void ShowField(CPlayfield *pField);
 } ;
 
 extern IVisualisation *CreateVisualisation();

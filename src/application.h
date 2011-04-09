@@ -11,7 +11,6 @@ class CApplication
 	IMenu *m_pMenu;
 	IMenu *Menu() { return m_pMenu; }
 	bool m_Running;
-	void DoAction(int Action);
 
 	public:
 	CApplication();
