@@ -4,7 +4,26 @@ cc         = gcc
 CFLAGS     = -Wall -O2
 DBGFLAGS   = -g
 SYSTEM     = $(shell $(cc) -dumpmachine)
-OBJECTS    = main.o application.o menu.o console.o game.o localgame.o servergame.o clientgame.o visualisation.o server.o client.o player.o localplayer.o localnetplayer.o distantnetplayer.o playfield.o 
+
+### objects ###
+OBJECTS    += application.o
+OBJECTS    += client.o
+OBJECTS    += clientgame.o
+OBJECTS    += console.o
+OBJECTS    += distantnetplayer.o
+OBJECTS    += game.o
+OBJECTS    += localgame.o
+OBJECTS    += localnetplayer.o
+OBJECTS    += localplayer.o
+OBJECTS    += main.o
+OBJECTS    += menu.o
+OBJECTS    += player.o
+OBJECTS    += playfield.o
+OBJECTS    += server.o
+OBJECTS    += servergame.o
+OBJECTS    += visualisation.o
+###
+
 OBJPATH    = objects/
 SRCPATH    = src/
 OBJ        = $(OBJECTS:%.o=$(OBJPATH)%.o)
