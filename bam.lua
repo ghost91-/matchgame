@@ -6,6 +6,11 @@ end
 
 function build(settings)
 	settings.cc.Output = Intermediate_Output
+	SetDriversGCC(settings)
+	settings.cc.flags:Add("-Wall")
+	if family == "windows" then
+		settings.link.flags:Add("-lws2_32")
+	end
 	source = Collect("src/*.cpp")
 	objects = Compile(settings, source)
 	exe = Link(settings, "matchgame", objects)
