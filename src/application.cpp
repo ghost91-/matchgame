@@ -1,5 +1,6 @@
 #include "application.h"
 #include "menu.h"
+#include <ncurses.h>
 
 CApplication::CApplication() : m_Running(true)
 {
@@ -19,7 +20,6 @@ void CApplication::Run()
 {
 	while(m_Running)
 	{
-		Menu()->Display();
 		Menu()->Select();
 	}
 	return;

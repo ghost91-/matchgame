@@ -8,6 +8,7 @@ function build(settings)
 	settings.cc.Output = Intermediate_Output
 	SetDriversGCC(settings)
 	settings.cc.flags:Add("-Wall")
+	settings.link.flags:Add("-lncurses")
 	if family == "windows" then
 		settings.link.flags:Add("-lws2_32")
 	end
