@@ -3,9 +3,8 @@
 #include "game.h"
 #include "network.h"
 
-CLocalNetPlayer::CLocalNetPlayer(INetwork *pNetwork, IGame *pGame):CPlayer(pGame)
+CLocalNetPlayer::CLocalNetPlayer(INetwork *pNetwork, IGame *pGame, CWindow *pInfoWindow, CWindow *pInputWindow) : CPlayer(pGame, pInfoWindow, pInputWindow), m_pNetwork(pNetwork)
 {
-	m_pNetwork = pNetwork;
 	m_PlayerType = LocalNetPlayer;
 }
 
@@ -18,7 +17,7 @@ int CLocalNetPlayer::Turn(int *pStackNumber, int *pAmount)
 		return 0;
 }
 
-IPlayer *CreateLocalNetPlayer(INetwork *pNetwork, IGame *pGame)
+IPlayer *CreateLocalNetPlayer(INetwork *pNetwork, IGame *pGame, CWindow *pInfoWindow, CWindow *pInputWindow)
 {
-	return new CLocalNetPlayer(pNetwork, pGame);
+	return new CLocalNetPlayer(pNetwork, pGame, pInfoWindow, pInputWindow);
 }

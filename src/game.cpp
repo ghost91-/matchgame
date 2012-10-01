@@ -3,11 +3,14 @@
 #include "playfield.h"
 #include "console.h"
 #include "visualisation.h"
+#include "gui.h"
 
 void CGame::Play()
 {
 	int StackNumber, Amount;
-	CConsole::Print("You may take up to %d matches from one stack each turn!\n", m_MaxAmount);
+	m_pInfoWindow->Clear();
+	m_pInfoWindow->MovePrint(0, 0, "You may take up to %d matches from one stack each turn!\n", m_MaxAmount);
+	m_pInfoWindow->Update();
 	Visualisation()->ShowField(Field());
 	int i = 1;
 
@@ -16,7 +19,9 @@ void CGame::Play()
 		StackNumber = 0;
 		Amount = 0;
 		i = i==1 ? 0 : 1;
-		CConsole::Print("Player %d's turn\n", i+1);
+		m_pInfoWindow->Clear();
+		m_pInfoWindow->MovePrint(0, 0,"Player %d's turn\n", i+1);
+		m_pInfoWindow->Update();
 		while(!ValidTurn(StackNumber, Amount))
 		{
 			if(Player()[i]->Turn(&StackNumber, &Amount) == -1)
@@ -26,7 +31,13 @@ void CGame::Play()
 		Visualisation()->ShowField(Field());
 		if (!(Field()->MatchExist()))
 		{
-			CConsole::Print("Player %d won!\n", i = i==1 ? 1 : 2);
+			m_pInfoWindow->Clear();
+			m_pInfoWindow->MovePrint(0, 0, "Player %d won!\n", i = i==1 ? 1 : 2);
+			m_pGameWindow->Clear();
+			m_pGameWindow->Update();
+			m_pInfoWindow->Update();
+			m_pInputWindow->Move(0, 0);
+			m_pInputWindow->GetCh();
 			return;
 		}
 	}
@@ -45,11 +56,13 @@ bool CGame::ValidTurn(int StackNumber, int Amount)
 	return (AllowedToTakeMatches(Amount) && Field()->CanTakeMatches(StackNumber, Amount));
 }
 
-CGame::CGame()
+CGame::CGame(CGui *pGui) : m_Initiated(false), m_pGui(pGui), m_GameType(Notknown)
 {
-	m_Initiated = false;
-	m_pVisualisation = CreateVisualisation();
-	m_GameType = Notknown;
+	m_pGui->Clear();
+	m_pInfoWindow = m_pGui->CreateWindow(3, m_pGui->GetMaxX(), 0, 0);
+	m_pGameWindow = m_pGui->CreateWindow(m_pGui->GetMaxY() - 4, m_pGui->GetMaxX(), 4, 0);
+	m_pInputWindow = m_pGui->CreateWindow(1, m_pGui->GetMaxX(), m_pGui->GetMaxY() - 1, 0);
+	m_pVisualisation = CreateVisualisation(m_pGameWindow);
 }
 
 CGame::~CGame()
@@ -65,20 +78,30 @@ CGame::~CGame()
 
 int CGame::Init()
 {
-		CConsole::Print("Number of stacks: ");
-		CConsole::GetInteger(&m_StackNumber);
-		CConsole::Print("Maximum number of matches takable: ");
-		CConsole::GetInteger(&m_MaxAmount);
-		m_pField = CreatePlayfield(m_StackNumber, m_MaxAmount);
-		m_paPlayer[0] = CreateLocalPlayer(this);
-		m_paPlayer[1] = CreateLocalPlayer(this);
-		m_Initiated = true;
-		return 0;
+	m_pInfoWindow->Clear();
+	m_pInfoWindow->MovePrint(0, 0, "Please enter the number of stacks!");
+	m_pInfoWindow->Update();
+	m_pInputWindow->Move(0, 0);
+	m_StackNumber = m_pInputWindow->GetInt();
+	m_pInputWindow->Clear();
+	m_pInputWindow->Update();
+	m_pInfoWindow->Clear();
+	m_pInfoWindow->MovePrint(0, 0, "Please enter the maximum number of matches one is allowed to take!");
+	m_pInfoWindow->Update();
+	m_pInputWindow->Move(0, 0);
+	m_MaxAmount = m_pInputWindow->GetInt();
+	m_pInputWindow->Clear();
+	m_pInputWindow->Update();
+	m_pField = CreatePlayfield(m_StackNumber, m_MaxAmount);
+	m_paPlayer[0] = CreateLocalPlayer(this, m_pInfoWindow, m_pInputWindow);
+	m_paPlayer[1] = CreateLocalPlayer(this, m_pInfoWindow, m_pInputWindow);
+	m_Initiated = true;
+	return 0;
 }
 
-IGame *CreateGame()
+IGame *CreateGame(CGui *pGui)
 {
-	return new CGame;
+	return new CGame(pGui);
 }
 
 

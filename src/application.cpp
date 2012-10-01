@@ -1,10 +1,11 @@
 #include "application.h"
 #include "menu.h"
-#include <ncurses.h>
+#include "gui.h"
 
 CApplication::CApplication() : m_Running(true)
 {
-	m_pMenu = CreateMenu();
+	m_pGui = CreateGui();
+	m_pMenu = CreateMenu(m_pGui);
 	Menu()->AddEntry(CreateMenuEntry(this, &CApplication::Quit, "Quit"));
 	Menu()->AddEntry(CreateMenuEntry(this, &CApplication::StartGame, LocalGame, "Localgame"));
 	Menu()->AddEntry(CreateMenuEntry(this, &CApplication::StartGame, ServerGame, "Netgame: wait for client to connect"));
@@ -14,6 +15,7 @@ CApplication::CApplication() : m_Running(true)
 CApplication::~CApplication()
 {
 	delete m_pMenu;
+	delete m_pGui;
 }
 
 void CApplication::Run()
@@ -31,19 +33,19 @@ void CApplication::StartGame(GameType GameType)
 	switch(GameType)
 	{
 		case LocalGame:
-		pGame = CreateLocalGame();
+		pGame = CreateLocalGame(m_pGui);
 		break;
 
 		case ServerGame:
-		pGame = CreateServerGame();
+		pGame = CreateServerGame(m_pGui);
 		break;
 
 		case ClientGame:
-		pGame = CreateClientGame();
+		pGame = CreateClientGame(m_pGui);
 		break;
 		
 		default:
-		pGame = CreateGame();
+		pGame = CreateGame(m_pGui);
 		break;
 	}
 	if(pGame->Init() == 0)

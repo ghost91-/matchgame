@@ -13,7 +13,7 @@ class CDistantNetPlayer : public CPlayer
 	INetwork *Network() { return m_pNetwork; }
 
 	public:
-	CDistantNetPlayer(INetwork *pNetwork, IGame *pGame);
+	CDistantNetPlayer(INetwork *pNetwork, IGame *pGame, CWindow *pInfoWindow, CWindow *pInputWindow);
 	int Turn(int *pStackNumber, int *pAmount);
 } ;
 

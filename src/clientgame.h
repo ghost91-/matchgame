@@ -4,6 +4,7 @@
 #include "game.h"
 
 class INetwork;
+class CGui;
 
 class CClientGame : public CGame
 {
@@ -11,7 +12,7 @@ class CClientGame : public CGame
 	INetwork *m_pNetwork;
 
 	public:
-	CClientGame();
+	CClientGame(CGui *pGui);
 	~CClientGame();
 	int Init();
 } ;

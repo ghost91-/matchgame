@@ -3,7 +3,8 @@
 
 #include <vector>
 
-#include <ncurses.h>
+class CGui;
+class CWindow;
 
 class IMenuEntry
 {
@@ -109,14 +110,17 @@ public:
 
 class CMenu : public IMenu
 {
+public:
+	CMenu(CGui *pGui);
 protected:
 	/*void DoDisplay();*/
 	void DoSelect();
 
 private:
-	void Print(WINDOW *pMenuWin, unsigned int Highlight);
+	void Print(CWindow *pMenuWin, unsigned int Highlight);
+	CGui *m_pGui;
 } ;
 
-extern IMenu *CreateMenu();
+extern IMenu *CreateMenu(CGui *pGui);
 
 #endif

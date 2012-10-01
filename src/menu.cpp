@@ -1,46 +1,29 @@
 #include "menu.h"
-#include "console.h"
 
-#include <ncurses.h>
-
-/*void CMenu::DoDisplay()
-{
-	CConsole::Print("Menu:\n");
-	int Number = 0;
-	std::vector<IMenuEntry*>::iterator Iterator = m_Entries.begin();
-	while(Iterator != m_Entries.end())
-	{
-		CConsole::Print("%d - %s\n", Number, (*Iterator)->GetName());
-		++Iterator;
-		++Number;
-	}
-	return;
-}*/
+#include "gui.h"
   
+CMenu::CMenu(CGui *pGui)
+{
+	m_pGui = pGui;
+}
+
 void CMenu::DoSelect()
 {
-	WINDOW *pMenuWin;
-	int c;
 	unsigned int Highlight = 0;
-	int Selection = -1;
-	initscr();
-	clear();
-	noecho();
-	cbreak();	/* Line buffering disabled. pass on everything */
+	int Selection = -1, c;
 
-	int StartX = (COLS - 40) / 2;
-	int StartY = (LINES - 6) / 2;
-	pMenuWin = newwin(6, 40, StartY, StartX);
-	keypad(pMenuWin, TRUE);
+	int StartX = (m_pGui->GetMaxX() - 40) / 2;
+	int StartY = (m_pGui->GetMaxY() - 6) / 2;
+	CWindow * pWindow = m_pGui->CreateWindow(6, 40, StartY, StartX);
 
-	mvprintw(0, 0, "Use arrow keys to go up and down, press enter to select a menu entry");
-	refresh();
+	m_pGui->GetMainWindow()->MovePrint(0, 0, "Use arrow keys to go up and down, press enter to select a menu entry");
+	m_pGui->GetMainWindow()->Update();
 
-	Print(pMenuWin, Highlight);
+	Print(pWindow, Highlight);
 
 	while(1)
 	{	
-		c = wgetch(pMenuWin);
+		c = pWindow->GetCh();
 		switch(c)
 		{	case KEY_UP:
 				if(Highlight == 0)
@@ -63,37 +46,34 @@ void CMenu::DoSelect()
 
 		if(Selection >= 0)
 		{
-			clrtoeol();
-			refresh();
-			endwin();
+			delete pWindow;
 			m_Entries[Selection]->Action();
 			break;
 		}
 		else
-			Print(pMenuWin, Highlight);
+			Print(pWindow, Highlight);
 	}	
 	return;
 }
 
-void CMenu::Print(WINDOW *pMenuWin, unsigned int Highlight)
+void CMenu::Print(CWindow *pMenuWin, unsigned int Highlight)
 {
 	int x = 1, y = 1;
-	box(pMenuWin, 0, 0);
 	for(unsigned int i = 0; i < m_Entries.size(); i++)
 	{	if(Highlight == i) /* High light the present choice */
-		{	wattron(pMenuWin, A_REVERSE); 
-			mvwprintw(pMenuWin, y, x, "%s", m_Entries[i]->GetName());
-			wattroff(pMenuWin, A_REVERSE);
+		{	pMenuWin->ActivateAttribute(Reverse); 
+			pMenuWin->MovePrint(y, x, "%s", m_Entries[i]->GetName());
+			pMenuWin->DeactivateAttribute(Reverse);
 		}
 		else
-			mvwprintw(pMenuWin, y, x, "%s", m_Entries[i]->GetName());
+			pMenuWin->MovePrint(y, x, "%s", m_Entries[i]->GetName());
 		y++;
 	}
-	wrefresh(pMenuWin);
+	pMenuWin->Update();
 }
 
-IMenu *CreateMenu()
+IMenu *CreateMenu(CGui *pGui)
 {
-	return new CMenu;
+	return new CMenu(pGui);
 }
 

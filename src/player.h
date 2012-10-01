@@ -3,6 +3,7 @@
 
 class INetwork;
 class IGame;
+class CWindow;
 
 enum PlayerType
 {
@@ -25,20 +26,22 @@ class CPlayer : public IPlayer
 	int m_StackNumber, m_Amount;
 	PlayerType m_PlayerType;
 	IGame *m_pGame;
+	CWindow *m_pInfoWindow;
+	CWindow *m_pInputWindow;
 
 	IGame *Game() { return m_pGame; }
 	void TurnInput(int *pStackNumber, int *pAmount);
 
 	public:
-	CPlayer(IGame *pGame);
+	CPlayer(IGame *pGame, CWindow *pInfoWindow, CWindow *pInputWindow);
 	virtual ~CPlayer() {}
 	virtual int Turn(int *pStackNumber, int *pAmount);
 } ;
 
-extern IPlayer *CreatePlayer(IGame *pGame);
-extern IPlayer *CreateLocalPlayer(IGame *pGame);
-extern IPlayer *CreateLocalNetPlayer(INetwork *pNetwork, IGame *pGame);
-extern IPlayer *CreateDistantNetPlayer(INetwork *pNetwork, IGame *pGame);
+extern IPlayer *CreatePlayer(IGame *pGame, CWindow *pInfoWindow, CWindow *pInputWindow);
+extern IPlayer *CreateLocalPlayer(IGame *pGame, CWindow *pInfoWindow, CWindow *pInputWindow);
+extern IPlayer *CreateLocalNetPlayer(INetwork *pNetwork, IGame *pGame, CWindow *pInfoWindow, CWindow *pInputWindow);
+extern IPlayer *CreateDistantNetPlayer(INetwork *pNetwork, IGame *pGame, CWindow *pInfoWindow, CWindow *pInputWindow);
 
 
 #endif

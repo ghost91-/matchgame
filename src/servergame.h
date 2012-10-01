@@ -3,7 +3,9 @@
 
 #include "game.h"
 
+
 class INetwork;
+class CGui;
 
 class CServerGame : public CGame
 {
@@ -11,7 +13,7 @@ class CServerGame : public CGame
 	INetwork *m_pNetwork;
 
 	public:
-	CServerGame();
+	CServerGame(CGui *pGui);
 	~CServerGame();
 	int Init();
 } ;
