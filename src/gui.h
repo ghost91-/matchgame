@@ -2,7 +2,12 @@
 #define GUI_DEFINED
 
 #include <cstdarg>
-#include <ncurses.h>
+#ifdef _WIN32
+	#include <curses.h>
+	#undef CreateWindow
+#else
+	#include <ncurses.h>
+#endif
 
 enum
 {
