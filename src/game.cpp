@@ -32,7 +32,9 @@ void CGame::Play()
 		if (!(Field()->MatchExist()))
 		{
 			m_pInfoWindow->Clear();
+			m_pInfoWindow->SetForegroundColor(COLOR_GREEN);
 			m_pInfoWindow->MovePrint(0, 0, "Player %d won!\n", i = i==1 ? 1 : 2);
+			m_pInfoWindow->SetForegroundColor(COLOR_WHITE);
 			m_pGameWindow->Clear();
 			m_pGameWindow->Update();
 			m_pInfoWindow->Update();

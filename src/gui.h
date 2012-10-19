@@ -32,11 +32,15 @@ public:
 	unsigned int GetMaxX();
 	void ActivateAttribute(int Attribute);
 	void DeactivateAttribute(int Attribute);
+	void SetForegroundColor(int Color);
+	void SetBackgroundColor(int Color);
 	void Update();
 	void Clear();
 
 private:
 	WINDOW *m_pWindow;
+	int m_CurrentForegroundColor;
+	int m_CurrentBackgroundColor;
 };
 
 class CGui

@@ -6,7 +6,7 @@
 	#include <ncurses.h>
 #endif
 
-CWindow::CWindow(unsigned int Height, unsigned int Width, unsigned int y, unsigned int x)
+CWindow::CWindow(unsigned int Height, unsigned int Width, unsigned int y, unsigned int x) : m_CurrentForegroundColor(COLOR_WHITE), m_CurrentBackgroundColor(COLOR_BLACK)
 {
 	m_pWindow = newwin(Height, Width, y, x);
 	keypad(m_pWindow, TRUE);
@@ -138,6 +138,18 @@ void CWindow::DeactivateAttribute(int Attribute)
 	}
 }
 
+void CWindow::SetBackgroundColor(int Color)
+{
+	wattron(m_pWindow, COLOR_PAIR(8 * Color + m_CurrentForegroundColor));
+	m_CurrentBackgroundColor = Color;
+}
+
+void CWindow::SetForegroundColor(int Color)
+{
+	wattron(m_pWindow, COLOR_PAIR(8 * m_CurrentBackgroundColor + Color));
+	m_CurrentForegroundColor = Color;
+}
+
 void CWindow::Update()
 {
 	wrefresh(m_pWindow);
@@ -154,6 +166,14 @@ CGui::CGui()
 	clear();
 	noecho();
 	cbreak();
+	start_color();
+	for(int i = 0; i <= COLOR_WHITE; i++)
+	{
+		for(int j = 0; j <= COLOR_WHITE; j++)
+		{
+			init_pair(8 * i + j, j, i);
+		}
+	}
 	m_pMainWindow = new CWindow(stdscr);
 }
 
