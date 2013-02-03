@@ -3,14 +3,17 @@
 
 #include <vector>
 
+class CGui;
+class CWindow;
+
 class IMenuEntry
 {
-	protected:
+protected:
 	virtual void DoAction() = 0;
 	virtual const char *DoGetName() const = 0;
 	virtual const char *DoGetDescription() const { return ""; }
 
-	public:
+public:
 	void Action() { DoAction(); }
 	const char *GetName() const { return DoGetName(); }
 	const char *GetDescription() const { return DoGetDescription(); }
@@ -20,12 +23,12 @@ class IMenuEntry
 template<typename Class>
 class CMenuEntryMethod : public IMenuEntry
 {
-	private:
+private:
 	Class *m_pObject;
 	void (Class::*m_pMethod)();
 	const char *m_pName;
   
-	protected:
+protected:
 	void DoAction()
 	{
 		(m_pObject->*m_pMethod)();
@@ -35,7 +38,7 @@ class CMenuEntryMethod : public IMenuEntry
 		return m_pName;
 	}
  
-	public:
+public:
 	CMenuEntryMethod(Class *pObject, void (Class::*pMethod)(), const char *pName)
 	: m_pObject(pObject), m_pMethod(pMethod), m_pName(pName)
 	{}
@@ -44,13 +47,13 @@ class CMenuEntryMethod : public IMenuEntry
 template<typename Class, typename Parameter>
 class CMenuEntryMethodParameter : public IMenuEntry
 {
-	private:
+private:
 	Class *m_pObject;
 	void (Class::*m_pMethod)(Parameter);
 	Parameter m_Parameter;
 	const char *m_pName;
   
-	protected:
+protected:
 	void DoAction()
 	{
 		(m_pObject->*m_pMethod)(m_Parameter);
@@ -60,7 +63,7 @@ class CMenuEntryMethodParameter : public IMenuEntry
 		return m_pName;
 	}
   
-	public:
+public:
 	CMenuEntryMethodParameter(Class *pObject, void (Class::*pMethod)(Parameter), Parameter Param, const char *pName)
 	: m_pObject(pObject), m_pMethod(pMethod), m_Parameter(Param), m_pName(pName)
 	{}
@@ -80,12 +83,12 @@ CMenuEntryMethodParameter<Class, Parameter>* CreateMenuEntry(Class *pObject, voi
 
 class IMenu
 {
-	protected:
+protected:
 	std::vector<IMenuEntry*> m_Entries;
-	virtual void DoDisplay() = 0;
+	/*virtual void DoDisplay() = 0;*/
 	virtual void DoSelect() = 0;
 
-	public:
+public:
 	virtual ~IMenu()
 	{
 		std::vector<IMenuEntry*>::iterator Iterator = m_Entries.begin();
@@ -101,17 +104,23 @@ class IMenu
 		m_Entries.push_back(Entry);
 	}
   
-	void Display() { DoDisplay(); }
+	/*void Display() { DoDisplay(); }*/
 	void Select() { DoSelect(); }
 } ;
 
 class CMenu : public IMenu
 {
-	protected:
-	void DoDisplay();
+public:
+	CMenu(CGui *pGui);
+protected:
+	/*void DoDisplay();*/
 	void DoSelect();
+
+private:
+	void Print(CWindow *pMenuWin, unsigned int Highlight);
+	CGui *m_pGui;
 } ;
 
-extern IMenu *CreateMenu();
+extern IMenu *CreateMenu(CGui *pGui);
 
 #endif

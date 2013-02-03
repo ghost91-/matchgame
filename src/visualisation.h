@@ -2,20 +2,24 @@
 #define VISUALISATION_DEFINED
 
 class CPlayfield;
+class CWindow;
 
 class IVisualisation
 {
-	public:
+public:
 	virtual ~IVisualisation() {}
 	virtual void ShowField(CPlayfield *pField) = 0;
 } ;
 
 class CVisualisation : public IVisualisation
 {
-	public:
+private:
+	CWindow *m_pWindow;
+public:
 	void ShowField(CPlayfield *pField);
+	CVisualisation(CWindow *pWindow);
 } ;
 
-extern IVisualisation *CreateVisualisation();
+extern IVisualisation *CreateVisualisation(CWindow *pWindow);
 
 #endif

@@ -14,7 +14,7 @@ class CLocalNetPlayer : public CPlayer
 
 	public:
 	int Turn(int *pStackNumber, int *pAmount);
-	CLocalNetPlayer(INetwork *pNetwork, IGame *pGame);
+	CLocalNetPlayer(INetwork *pNetwork, IGame *pGame, CWindow *pInfoWindow, CWindow *pInputWindow);
 } ;
 
 #endif

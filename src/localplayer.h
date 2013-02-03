@@ -4,11 +4,12 @@
 #include "player.h"
 
 class IGame;
+class CWindow;
 
 class CLocalPlayer : public CPlayer
 {
 	public:
-	CLocalPlayer(IGame *pGame);
+	CLocalPlayer(IGame *pGame, CWindow *pInfoWindow, CWindow *pInputWindow);
 } ;
 
 #endif

@@ -6,7 +6,7 @@
 class CLocalGame : public CGame
 {	
 	public:
-	CLocalGame();
+	CLocalGame(CGui *pGui);
 } ;
 
 #endif
